@@ -1,0 +1,108 @@
+{
+  "name": "Classificador de texto",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "30985319-c825-4b4f-866a-8d9838572af6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "inputText": "Especialistas em cibersegurança alertam para uma nova vulnerabilidade em sistemas baseados em Cloud Computing. A falha está relacionada a um algoritmo de criptografia desatualizado no código-fonte de uma API muito utilizada. Recomenda-se que os administradores de rede atualizem imediatamente o firmware de todos os servidores e aumentem a proteção do firewall. Este incidente reforça a necessidade de investimentos em Inteligência Artificial para monitorar e prever ameaças.",
+        "categories": {
+          "categories": [
+            {
+              "category": "Esporte",
+              "description": "Textos que envolvem competições atléticas, partidas, resultados, contratações, lesões, táticas, análises de desempenho de atletas e equipes, e a gestão de eventos esportivos e ligas."
+            },
+            {
+              "category": "Tecnologia",
+              "description": "Textos que tratam de desenvolvimento de software, hardware, ciência de dados, inteligência artificial, segurança digital, novos dispositivos (além de consoles) e inovações no mercado digital."
+            },
+            {
+              "category": "Jogos",
+              "description": "Textos que abordam notícias, análises, reviews, lançamentos, walkthroughs, e discussões sobre jogos eletrônicos, consoles, plataformas de gaming e a cultura gamer."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1f7ab197-6551-49d4-838b-a843ed7cfb82",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        224
+      ],
+      "id": "bc0a9780-a52a-48ff-a43f-84b41fb06bff",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "kkJ8ENgoUUx5yRxN",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5f1a4c60-3d4e-4fea-8bcb-adb1f66f6439",
+  "meta": {
+    "instanceId": "8690678d36f034502b7c26c69b07ea610b18e6d78eb76b8c24333d1ae1d906e8"
+  },
+  "id": "2QvBeLXSL2msdBPt",
+  "tags": [
+    {
+      "createdAt": "2025-10-31T03:11:39.314Z",
+      "updatedAt": "2025-10-31T03:11:39.314Z",
+      "id": "Mem5NegpmTfZkAqP",
+      "name": "Groq"
+    }
+  ]
+}

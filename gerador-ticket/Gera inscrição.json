@@ -1,0 +1,284 @@
+{
+  "name": "Gera inscrição",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d18c2e2c-f50f-4906-afc8-24cd632ac34a",
+              "name": "Nome Completo",
+              "value": "={{ $('Formulario').item.json['Nome Completo'] }}",
+              "type": "string"
+            },
+            {
+              "id": "567a3673-d272-482f-a8ee-f793b26ab53c",
+              "name": "Email",
+              "value": "={{ $('Formulario').item.json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "52a59736-97bc-437e-85bd-d4784874f03c",
+              "name": "Telefone",
+              "value": "={{ $('Formulario').item.json.Telefone }}",
+              "type": "number"
+            },
+            {
+              "id": "f34f2d3f-609d-4e7e-b756-dc6e33ca55d1",
+              "name": "Data atual",
+              "value": "={{$now.format('dd/LL/yyyy')}}",
+              "type": "string"
+            },
+            {
+              "id": "e16e5f5c-ae49-4007-aaf8-dac44b1e0b33",
+              "name": "Validade",
+              "value": "={{ $json.data_valida.toDateTime().format('dd/LL/yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        96,
+        -16
+      ],
+      "id": "fff10310-1443-4eb9-9e5f-3fa2b9f60b5a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "[nome_cliente]",
+              "replaceText": "={{ $('Edit Fields').item.json['Nome Completo'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[data_atual]",
+              "replaceText": "={{ $('Edit Fields').item.json['Data atual'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[email_cliente]",
+              "replaceText": "={{ $('Edit Fields').item.json.Email}}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[telefone_cliente]",
+              "replaceText": "={{ $('Edit Fields').item.json.Telefone.toString() }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[data_validade]",
+              "replaceText": "={{ $('Edit Fields').item.json.Validade }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        512,
+        -16
+      ],
+      "id": "d4e2829c-b374-436e-9a22-5a78f907af5a",
+      "name": "Preenche ticket",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "BeI4baFOZFfs8QH0",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1_zSzECZStwOsgvZk5Wf7K1ugdQI3fa3nKyq7rOWr48s",
+          "mode": "list",
+          "cachedResultName": "Proposta+Turismo",
+          "cachedResultUrl": "https://docs.google.com/document/d/1_zSzECZStwOsgvZk5Wf7K1ugdQI3fa3nKyq7rOWr48s/edit?usp=drivesdk"
+        },
+        "name": "=Ingresso: {{ $json['Nome Completo'] }} - {{ $json['Data atual'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        304,
+        -16
+      ],
+      "id": "ed897831-511f-43ac-b0b5-8ee33457a2dc",
+      "name": "Gera ticket",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ElsmBZ5OQS6umV7B",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $now }}",
+        "duration": 7,
+        "outputFieldName": "data_valida",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        -16
+      ],
+      "id": "b05bc3e3-c90b-4381-9e2c-442179c550a5",
+      "name": "Data"
+    },
+    {
+      "parameters": {
+        "formTitle": "Gerador de inscrição",
+        "formDescription": "Inscrição para curso de Python",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nome Completo",
+              "placeholder": "Digite seu nome",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Telefone",
+              "fieldType": "number",
+              "placeholder": "(00)0000-0000",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Enviar"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        -16
+      ],
+      "id": "3160ff43-ff05-4138-8f10-785646a80691",
+      "name": "Formulario",
+      "webhookId": "4f6f57d9-f8a0-4053-8128-7ec2be3e8642"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.documentId }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        720,
+        -16
+      ],
+      "id": "fd367731-9829-4c8b-a49c-19e6d98b3d85",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ElsmBZ5OQS6umV7B",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Gera ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gera ticket": {
+      "main": [
+        [
+          {
+            "node": "Preenche ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formulario": {
+      "main": [
+        [
+          {
+            "node": "Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preenche ticket": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "09f99a94-a549-4182-a895-cdc06661b03a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8690678d36f034502b7c26c69b07ea610b18e6d78eb76b8c24333d1ae1d906e8"
+  },
+  "id": "cvJBHBtgU9DCJhBK",
+  "tags": []
+}
