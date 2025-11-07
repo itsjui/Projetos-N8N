@@ -1,0 +1,93 @@
+{
+  "name": "Analise de Sentimentos",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6b01fdab-19f4-4fa0-82c7-5a6a68808850",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "inputText": "Recebi o e-mail de confirmação em poucos minutos e o processo de cadastro é simples.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "985b1d01-e535-42c1-87fc-873b9906f15c",
+      "name": "Sentiment Analysis"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        224
+      ],
+      "id": "7ab12ff0-8e95-4cb0-82c1-f0b8a6600969",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "kkJ8ENgoUUx5yRxN",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "eb1ce129-b640-4629-80b2-c8d1fa2ba5d5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8690678d36f034502b7c26c69b07ea610b18e6d78eb76b8c24333d1ae1d906e8"
+  },
+  "id": "lZoOq5wMOOZbs0vr",
+  "tags": [
+    {
+      "createdAt": "2025-10-31T03:11:39.314Z",
+      "updatedAt": "2025-10-31T03:11:39.314Z",
+      "id": "Mem5NegpmTfZkAqP",
+      "name": "Groq"
+    }
+  ]
+}
