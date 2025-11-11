@@ -1,0 +1,359 @@
+{
+  "name": "agendamento pagamento",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2fe93bb4-af49-4dbf-a53b-11bc0421c5d7",
+      "name": "Agendamento"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "1cb2447e-23f3-465d-bcce-89527c2c810f",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI",
+          "mode": "list",
+          "cachedResultName": "Lista de contato ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Pagamento"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "dc2707ef-c901-42ba-aa7b-9881f9a22475",
+      "name": "GET lista",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "MTYQe7hckbvRjTEn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bb4621ac-5048-4698-9714-fa570cdabb54",
+              "leftValue": "={{ $json.Pagamento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        0
+      ],
+      "id": "f172027f-a504-41a7-a128-24f4e68e0a1e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI",
+          "mode": "list",
+          "cachedResultName": "Lista de pagamento ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('GET lista').item.json.Nome }}",
+            "Pagamento": "Pagamento Realizado"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pagamento",
+              "displayName": "Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        96
+      ],
+      "id": "8c16afdf-0578-45d6-a8c5-79f44c1b324a",
+      "name": "atualiza pagamento",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "MTYQe7hckbvRjTEn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI",
+          "mode": "list",
+          "cachedResultName": "Lista de pagamento ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BB_mTuVDLC4u2RKVAUQv_Y0zckceDFZ6_3Cfv7g61kI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('GET lista').item.json.Nome }}",
+            "Pagamento": "Aguardando pagamento"
+          },
+          "matchingColumns": [
+            "Nome"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pagamento",
+              "displayName": "Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        -96
+      ],
+      "id": "c6165ee9-662d-4f3a-9c5b-1a4ad26d7d20",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "MTYQe7hckbvRjTEn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        -96
+      ],
+      "id": "badb0943-a234-42fb-8ef3-5212c6c53e5d",
+      "name": "Send email",
+      "webhookId": "370ee7cf-e0ac-4d90-9550-ecf8d780cff6",
+      "credentials": {
+        "smtp": {
+          "id": "YjPwqKDRE3020CLA",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Agendamento": {
+      "main": [
+        [
+          {
+            "node": "GET lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET lista": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza pagamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d5881e99-4091-4afb-899e-f2e21a1f71a5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8690678d36f034502b7c26c69b07ea610b18e6d78eb76b8c24333d1ae1d906e8"
+  },
+  "id": "LtmjHJ30ngtF7NXl",
+  "tags": []
+}

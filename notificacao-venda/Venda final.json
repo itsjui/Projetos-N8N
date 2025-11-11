@@ -1,0 +1,131 @@
+{
+  "name": "Venda final",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "081ad55b-e098-4e8a-8ad8-433e456ddb2f",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "598d4d49-6e4f-4ceb-bac8-02f2474641d7",
+      "name": "Webhook",
+      "webhookId": "081ad55b-e098-4e8a-8ad8-433e456ddb2f"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5e75a4e-38b3-422c-b33c-571c803da0df",
+              "name": "produto",
+              "value": "={{ $json.body.produto_titulo }}",
+              "type": "string"
+            },
+            {
+              "id": "d3a9ab14-a573-4947-9850-8770a856c4eb",
+              "name": "descricao",
+              "value": "={{ $json.body.produto_descricao }}",
+              "type": "string"
+            },
+            {
+              "id": "d9938fd0-1276-4081-bcc1-9388192e67c7",
+              "name": "valor",
+              "value": "={{ $json.body.valor }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "bbab99fc-d3ee-4836-9177-a04b30722636",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09PE3NLFPH",
+          "mode": "list",
+          "cachedResultName": "novo-canal"
+        },
+        "text": "=Venda realizada com sucesso!! 🛒😁 {{ $json.produto }}\nR$ {{ $json.valor }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b9a4ad15-326c-4839-b3c5-1ec399d94de9",
+      "name": "Send a message",
+      "webhookId": "e3539cdc-fea9-4674-8952-b49379e26c91",
+      "credentials": {
+        "slackApi": {
+          "id": "2saN3ETeTKXwQZUD",
+          "name": "Slack account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "13504903-4575-4a1e-b484-422fc9c5bed8",
+  "meta": {
+    "instanceId": "8690678d36f034502b7c26c69b07ea610b18e6d78eb76b8c24333d1ae1d906e8"
+  },
+  "id": "csy1FXXAqM1EbA3z",
+  "tags": [
+    {
+      "name": "lovable",
+      "id": "KkmXFPEnzdoQLuLW",
+      "createdAt": "2025-11-07T11:26:15.604Z",
+      "updatedAt": "2025-11-07T11:26:15.604Z"
+    }
+  ]
+}
