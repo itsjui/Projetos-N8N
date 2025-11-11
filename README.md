@@ -1,6 +1,6 @@
 # Projetos-N8N
 
-Este repositório serve como um hub para visualizar e acessar meus projetos de **Orquestração de Fluxos de Trabalho** e **Integração de Sistemas** construídos majoritariamente com a ferramenta Low-Code **N8N**.
+Este repositório serve como um hub para visualizar e acessar meus projetos de **Orquestração de Fluxos de Trabalho** e **Integração de Sistemas** construídos com a ferramenta Low-Code **N8N**.
 
 ## Como Visualizar e Testar
 
